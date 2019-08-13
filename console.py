@@ -42,8 +42,6 @@ class HBNBCommand(cmd.Cmd):
                 flag = 0
                 my_param = []
                 my_param = var.split("=")
-                print("****************************")
-                print(my_param[0])
                 if '"' in my_param[1] and flag == 0:
                     my_param[1].replace('"', '\\"')
                     my_param[1].replace('_', " ")

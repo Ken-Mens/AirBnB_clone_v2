@@ -26,12 +26,11 @@ class FileStorage:
             returns a dictionary of __object
         """
         return self.__objects
- 	else:
+        """else:
             this = {}
-	    for keys, values in self.__objects():
+            for keys, values in self.__objects():
             cls_name = keys.split('.')
-            
-
+        """
     def new(self, obj):
         """sets __object to given obj
         Args:
@@ -55,7 +54,7 @@ class FileStorage:
         """
         obj_del = "{}.{}".format(type(obj).__name__, obj.id)
         if obj_del in self.__objects:
-        del self.__objects[obj_del]
+            del(self.__objects[obj_del])
 
     def reload(self):
         """serialize the file path to JSON file path

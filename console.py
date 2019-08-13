@@ -39,22 +39,17 @@ class HBNBCommand(cmd.Cmd):
             obj = eval("{}()".format(my_list[0]))
             my_list = my_list[1:]
             for var in my_list:
-                flag = 0
-                my_param = []
                 my_param = var.split("=")
-                if '"' in my_param[1] and flag == 0:
-                    my_param[1].replace('"', '\\"')
-                    my_param[1].replace('_', " ")
-                    obj.__setattr__(my_param[0], (my_param[1]))
-                    flag = 1
-                elif '.' in my_param[1] and flag == 0:
+                if '"' in my_param[1]:
+                    my_param[1] = my_param[1].replace('"', '')
+                    my_param[1] = my_param[1].replace('_', " ")
+                    obj.__setattr__(my_param[0], str(my_param[1]))
+                elif '.' in my_param[1]:
                     temp_num = my_param[1].replace(".", "")
                     if temp_num.isnumeric():
                         obj.__setattr__(my_param[0], float(my_param[1]))
-                        flag = 1
-                elif my_param[1].isnumeric() and flag == 0:
+                elif my_param[1].isnumeric():
                     obj.__setattr__(my_param[0], int(my_param[1]))
-                    flag = 1
                 else:
                     pass
             obj.save()

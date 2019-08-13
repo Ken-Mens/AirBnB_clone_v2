@@ -55,6 +55,7 @@ class FileStorage:
         obj_del = "{}.{}".format(type(obj).__name__, obj.id)
         if obj_del in self.__objects:
             del(self.__objects[obj_del])
+            self.save()
 
     def reload(self):
         """serialize the file path to JSON file path

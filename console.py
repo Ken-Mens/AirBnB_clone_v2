@@ -41,9 +41,9 @@ class HBNBCommand(cmd.Cmd):
             for var in my_list:
                 my_param = var.split("=")
                 if '"' in my_param[1]:
-                    my_param[1] = my_param[1].replace('"', '\"')
+                    my_param[1] = my_param[1].strip('"')
                     my_param[1] = my_param[1].replace('_', " ")
-                    obj.__setattr__(my_param[0], str(my_param[1]))
+                    obj.__setattr__(my_param[0], my_param[1])
                 elif '.' in my_param[1]:
                     temp_num = my_param[1].replace(".", "")
                     if temp_num.isnumeric():

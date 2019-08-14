@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """This is the state class"""
 from models.base_model import BaseModel
+from models.city import City
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, Integer
 
@@ -14,3 +15,4 @@ class State(BaseModel, Base):
     __tablename__ = "cities"
 
     name = Column(String(128), nullable=False) 
+    cities = City()

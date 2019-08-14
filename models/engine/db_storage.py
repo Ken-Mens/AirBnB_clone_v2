@@ -1,16 +1,14 @@
 #!/usr/bin/python3
 """This is DB_Storage Engine"""
-import pip
-import os
-from models.base_model import BaseModel
-from sqlachemy.ext.declarative import declarative_base
-from sqlachemy import Column, Integer, String, ForeignKey
-from sqlachemy.orm import sessionmaker
-from sqlachemy.orm import scoped_session
-from model_state import Base, State
-from model_city import City
+from os import getenv
+from models.base_model import BaseModel, Base
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import scoped_session
+from models import State
+from models.city import City
 from sqlalchemy import create_engine
-
 class DBStorage:
     """SQL STORAGE ENGINE
     """
@@ -20,18 +18,14 @@ class DBStorage:
     def __init__(self):
         """ create the engine
         """
-        user= os.environ.get("username")
-        password= os.environ.get("HBNB_MYSQL_PWD")
-        localhost=os.enivron.get("localhost")
-        database= os.environ.get("database")
+        user= getenv("HBNB_MYSQL_USER")
+        password= getenv("HBNB_MYSQL_PWD")
+        localhost= getenv("HBNB_MYSQL_HOST")
+        database=  getenv("HBNB_MYSQL_DB")
         
-        eng = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format
-                        (user, password, database, localhost, 
-                         pool_pre_ping=True))
-
-        Session = sessionmaker(bind=eng)
-        sesh = Session()
-
+        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(user, password,localhost, database, pool_pre_ping=True))
+        if getenv("HBNB_ENV") == "test":
+            Base.metadata.drop_all(bind=engine)
     def all(self, cls=None):
         """ method that returns everyting based on class name
         """
@@ -64,7 +58,9 @@ class DBStorage:
     def reload(self):
         """ create all tables and create current database
         """
-        from Base import Base.metadata
+        Session = sessionmaker(bind=self.__engine)
+        sesh = Session()
+        eng = Base.metadata.create_all(self.__engine) 
         #Base.metadata.create_all(engine)
         sesh1 = sessionmaker(bind=eng, expire_on_commit=False)
         scped = scoped_session(sesh1) 

@@ -2,13 +2,17 @@
 """This is DB_Storage Engine"""
 from os import getenv
 from models.base_model import BaseModel, Base
+#from models.amenity import Amenity
+from models.city import City
+#from models.place import Place
+#from models.review import Review
+from models.state import State
+#from models.user import User
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import class_mapper
-from models import State
-from models.city import City
 from sqlalchemy import create_engine
 class DBStorage:
     """SQL STORAGE ENGINE
@@ -34,16 +38,12 @@ class DBStorage:
         self.__session = sessionmaker(bind=self.__engine)
         sesh = self.__session()
         if cls == None:
-            tables = ["Amenity", "City", "Place", "Review", "State", "User"]
-            for table in tables:
-                for key, value in sesh.query(table).all():
-                    if table.startswith(cls.__name__):
-                        my_dict[cls.__name__] = value
+            for key, value in sesh.query(State, City).all():
+                my_dict[cls.__name__] = value
         else:
             for key, value in sesh.query(cls.__name__):
                 if key.startswith(cls.__name__):
                     my_dict[cls.__name__] = value
-            print(my_dict)
         return my_dict
 
     def new(self, obj):

@@ -38,12 +38,17 @@ class DBStorage:
         self.__session = sessionmaker(bind=self.__engine)
         sesh = self.__session()
         if cls == None:
-            for key, value in sesh.query(State, City).all():
-                my_dict[cls.__name__] = value
+            tables = [State, City]
+            for table in tables:
+                my_query = sesh.query(table).all()
+                for res in my_query:
+                    my_dict[str(res.__class__.__name__) + "." + str(res.id)]= res
         else:
-            for key, value in sesh.query(cls.__name__):
-                if key.startswith(cls.__name__):
-                    my_dict[cls.__name__] = value
+            my_query = sesh.query(cls.__name__).all()
+            print(my_query)
+            print("else")
+            for res in my_query:
+                my_dict[str(res.__class__.__name__) + "." + str(res.id)]= res
         return my_dict
 
     def new(self, obj):
@@ -53,6 +58,7 @@ class DBStorage:
         self.__session = sessionmaker(bind=self.__engine)
         sesh = self.__session()
         sesh.add(obj)
+        sesh.commit()
     def save(self):
         """ commit all changes of current database 
         """

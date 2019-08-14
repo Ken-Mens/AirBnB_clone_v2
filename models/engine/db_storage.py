@@ -25,12 +25,11 @@ class DBStorage:
         
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(user, password,localhost, database, pool_pre_ping=True))
         if getenv("HBNB_ENV") == "test":
-            Base.metadata.drop_all(bind=engine)
+            Base.metadata.drop_all(bind=self.__engine)
     def all(self, cls=None):
         """ method that returns everyting based on class name
         """
-        a_dict = {}
-        sesh.query(cls.__name__).all() 
+ 
         if not cls:
             return self.__session
         else:
@@ -44,13 +43,12 @@ class DBStorage:
         """ add object to current database
         """
         #for k, v in self.__object.items():
-        sesh.add(obj)
-        sesh.commit(obj)
+        self.__session.add(obj)
 
     def save(self):
         """ commit all changes of current database 
         """
-        sesh.commit(self)
+        self.__session.commit(self)
     def delete(self, obj=None):
         """ delete from current database
         """
@@ -58,8 +56,7 @@ class DBStorage:
     def reload(self):
         """ create all tables and create current database
         """
-        Session = sessionmaker(bind=self.__engine)
-        sesh = Session()
+        #Session = sessionmaker(bind=self.__engine)
         eng = Base.metadata.create_all(self.__engine) 
         #Base.metadata.create_all(engine)
         sesh1 = sessionmaker(bind=eng, expire_on_commit=False)

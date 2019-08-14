@@ -6,6 +6,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
+from sqlalchemy.orm import class_mapper
 from models import State
 from models.city import City
 from sqlalchemy import create_engine
@@ -29,26 +30,34 @@ class DBStorage:
     def all(self, cls=None):
         """ method that returns everyting based on class name
         """
- 
-        if not cls:
-            return self.__session
+        my_dict = {}
+        self.__session = sessionmaker(bind=self.__engine)
+        sesh = self.__session()
+        if cls == None:
+            tables = ["Amenity", "City", "Place", "Review", "State", "User"]
+            for table in tables:
+                for key, value in sesh.query(table).all():
+                    if table.startswith(cls.__name__):
+                        my_dict[cls.__name__] = value
         else:
-             my_dict = {}
-             for key, value in self.__objects.items():
-                 if key.startswith(cls.__name__):
-                     my_dict[cls.__name__] = value
+            for key, value in sesh.query(cls.__name__):
+                if key.startswith(cls.__name__):
+                    my_dict[cls.__name__] = value
+            print(my_dict)
         return my_dict
 
     def new(self, obj):
         """ add object to current database
         """
         #for k, v in self.__object.items():
-        self.__session.add(obj)
-
+        self.__session = sessionmaker(bind=self.__engine)
+        sesh = self.__session()
+        sesh.add(obj)
     def save(self):
         """ commit all changes of current database 
         """
-        self.__session.commit(self)
+        sesh = self.__session()
+        sesh.commit()
     def delete(self, obj=None):
         """ delete from current database
         """

@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """This is the place class"""
 from models.base_model import BaseModel, Base
+from models.base_model import place_amenity
 from sqlalchemy import Column, Integer, String, ForeignKey, Float
 from sqlalchemy.orm import relationship
 from os import getenv
@@ -49,6 +50,25 @@ class Place(BaseModel, Base):
                       nullable=True)
     longitude = Column(Float,
                        nullable=True)
+
+    place_amenity = Table('place_amenity', Base.metadata,
+                    Column('place_id', String(60)),
+                           ForeignKey('places.id'),
+                           nullable=False))
+                     Column("amenity_id", String(60),
+                           ForeignKey("amenities.id"),
+                           nullable=False))
+
+    amenities = relationship('Amenity',
+                             secondary=place_amenity,
+                             viewonly=False)
+    @amenities.setter
+    def amenities(self, obj):
+        """ Returns list of Amenity
+        """
+        for xzy in self.amenities:
+            if self.id == amenities.place_id:
+                xyz.append(obj)
 
     if getenv("HBNB_FILE_STORAGE") == "db":
         @property

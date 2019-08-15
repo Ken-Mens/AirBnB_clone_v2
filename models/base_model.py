@@ -8,18 +8,19 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
+
 class BaseModel:
     """This class will defines all common attributes/methods
     for other classes
     """
 
     id = Column(String(60),
-           nullable=False,
-           primary_key=True)
+                nullable=False,
+                primary_key=True)
 
     created_at = Column(DateTime,
-                   nullable=False,
-                   default=datetime.utcnow()) 
+                        nullable=False,
+                        default=datetime.utcnow())
     updated_at = Column(DateTime,
                         default=datetime.utcnow(),
                         nullable=False)
@@ -79,7 +80,6 @@ class BaseModel:
         return my_dict
 
     def delete(self):
-       """ delete current instance from the storage
-       """
-       models.storage.delete(self)
-
+        """ delete current instance from the storage
+        """
+        models.storage.delete(self)

@@ -2,12 +2,12 @@
 """This is DB_Storage Engine"""
 from os import getenv
 from models.base_model import BaseModel, Base
-#from models.amenity import Amenity
+from models.amenity import Amenity
 from models.city import City
-#from models.place import Place
-#from models.review import Review
+from models.place import Place
+from models.review import Review
 from models.state import State
-#from models.user import User
+from models.user import User
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import sessionmaker
@@ -38,7 +38,7 @@ class DBStorage:
         self.__session = sessionmaker(bind=self.__engine)
         sesh = self.__session()
         if cls == None:
-            tables = [State, City]
+            tables = [City, Place, State, User]
             for table in tables:
                 my_query = sesh.query(table).all()
                 for res in my_query:

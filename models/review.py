@@ -4,7 +4,7 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 
-__tablename__ = 'reviews'
+
 
 
 class Review(BaseModel, Base):
@@ -14,6 +14,7 @@ class Review(BaseModel, Base):
         user_id: user id
         text: review description
     """
+    __tablename__ = 'reviews'
     place_id = Column(String(60),
                       ForeignKey('places.id'),
                       nullable=False)

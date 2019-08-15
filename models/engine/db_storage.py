@@ -38,7 +38,7 @@ class DBStorage:
         self.__session = sessionmaker(bind=self.__engine)
         sesh = self.__session()
         if cls == None:
-            tables = [City, Place, State, User]
+            tables = [City, Place, State, Review, User]
             for table in tables:
                 my_query = sesh.query(table).all()
                 for res in my_query:

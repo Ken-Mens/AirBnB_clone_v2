@@ -25,7 +25,7 @@ class FileStorage:
         Return:
             returns a dictionary of __object
         """
-        if cls != None:
+        if cls is not None:
             my_dict = {}
             for key, value in self.__objects.items():
                 if key.startswith(cls.__name__):
@@ -54,7 +54,7 @@ class FileStorage:
     def delete(self, obj=None):
         """Delete object instance
         """
-        if obj != None:
+        if obj is not None:
             obj_del = "{}.{}".format(type(obj).__name__, obj.id)
             if obj_del in self.__objects:
                 del(self.__objects[obj_del])
@@ -70,4 +70,3 @@ class FileStorage:
                     self.__objects[key] = value
         except FileNotFoundError:
             pass
-

@@ -53,10 +53,8 @@ class HBNBCommand(cmd.Cmd):
                         my_param[1] = my_param[1].replace('_', " ")
                         obj.__setattr__(my_param[0], my_param[1])
                     elif '.' in my_param[1]:
-                        temp_num = my_param[1].replace(".", "")
-                        if temp_num.isnumeric():
-                            obj.__setattr__(my_param[0], float(my_param[1]))
-                    elif my_param[1].isnumeric():
+                        obj.__setattr__(my_param[0], float(my_param[1]))
+                    else:
                         obj.__setattr__(my_param[0], int(my_param[1]))
                 except:
                     pass

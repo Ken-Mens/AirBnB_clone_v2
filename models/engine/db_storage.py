@@ -5,7 +5,6 @@ from models.base_model import BaseModel, Base
 from models.amenity import Amenity
 from models.city import City
 from models.place import Place
-from models.review import Review
 from models.state import State
 from models.user import User
 from sqlalchemy.ext.declarative import declarative_base
@@ -67,11 +66,10 @@ class DBStorage:
     def delete(self, obj=None):
         """ delete from current database
         """
-        if obj is not None:
+        if obj:
             self.__session.delete(obj)
     def reload(self):
         """ create all tables and create current database
         """
         Base.metadata.create_all(self.__engine)
-        sesh1 = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        self.__session = scoped_session(sesh1) 
+        self.__session = scoped_session(sessionmaker(bind=self.__engine, expire_on_commit=False))

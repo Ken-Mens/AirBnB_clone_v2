@@ -50,9 +50,7 @@ class Place(BaseModel, Base):
     longitude = Column(Float,
                        nullable=True)
 
-    reviews = relationship('Review',
-                           cascade='all, delete',
-                           backref='Place')
+    
 
     if getenv("HBNB_FILE_STORAGE") == "db":
         @property
@@ -64,3 +62,7 @@ class Place(BaseModel, Base):
                 if ids.place_id == self.id:
                     my_list.append(ids)
             return my_list
+    else:
+        reviews = relationship('Review',
+                           cascade='all, delete',
+                           backref='Place')

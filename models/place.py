@@ -1,19 +1,19 @@
 #!/usr/bin/python3
 """This is the place class"""
 from models.base_model import BaseModel, Base
-#from models.base_model import place_amenity
 from sqlalchemy import Column, Integer, String, ForeignKey, Float, Table
 from sqlalchemy.orm import relationship
 from os import getenv
 
 if getenv("HBNB_FILE_STORAGE") == "db":
     place_amenity = Table("place_amenity", Base.metadata,
-        Column("place_id", String(60),
-                ForeignKey("places.id"),
-                nullable=False),
-        Column("amenity_id", String(60),
-                ForeignKey("amenities.id"),
-                nullable=False))
+                          Column("place_id", String(60),
+                                 ForeignKey("places.id"),
+                                 nullable=False),
+                          Column("amenity_id", String(60),
+                                 ForeignKey("amenities.id"),
+                                 nullable=False))
+
 
 class Place(BaseModel, Base):
     """This is the class for Place
@@ -61,9 +61,9 @@ class Place(BaseModel, Base):
                        nullable=True)
     if getenv("HBNB_FILE_STORAGE") == "db":
         amenities = relationship('Amenity',
-                                  secondary=place_amenity,
-                                  backref="places",
-                                  viewonly=False)
+                                 secondary=place_amenity,
+                                 backref="places",
+                                 viewonly=False)
     else:
         @property
         def amenities(self):
@@ -77,7 +77,6 @@ class Place(BaseModel, Base):
                 if self.id == self.amenities.place_id:
                     ids.append(obj)
             self.amenity_ids = ids
-    
     if getenv("HBNB_FILE_STORAGE") == "db":
         @property
         def reviews(self):

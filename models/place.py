@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 """This is the place class"""
 from models.base_model import BaseModel, Base
-from models.base_model import place_amenity
-from sqlalchemy import Column, Integer, String, ForeignKey, Float
+#from models.base_model import place_amenity
+from sqlalchemy import Column, Integer, String, ForeignKey, Float, Table
 from sqlalchemy.orm import relationship
 from os import getenv
 
@@ -22,6 +22,7 @@ class Place(BaseModel, Base):
         longitude: longitude in float
         amenity_ids: list of Amenity ids
     """
+    amenity_ids = []
     __tablename__ = 'places'
 
     city_id = Column(String(60),
@@ -51,25 +52,31 @@ class Place(BaseModel, Base):
     longitude = Column(Float,
                        nullable=True)
 
-    place_amenity = Table('place_amenity', Base.metadata,
-                    Column('place_id', String(60)),
-                           ForeignKey('places.id'),
-                           nullable=False))
-                     Column("amenity_id", String(60),
-                           ForeignKey("amenities.id"),
-                           nullable=False))
+    place_amenity = Table("place_amenity", Base.metadata,
+    Column("place_id", String(60),
+            ForeignKey("places.id"),
+            nullable=False),
+    Column("amenity_id", String(60),
+            ForeignKey("amenities.id"),
+            nullable=False))
+    if getenv("HBNB_FILE_STORAGE") == "db":
+        amenities = relationship('Amenity',
+                                  secondary=place_amenity,
+                                  viewonly=False)
+    else:
+        @property
+        def amenities(self):
+            return self.amenities_ids
 
-    amenities = relationship('Amenity',
-                             secondary=place_amenity,
-                             viewonly=False)
-    @amenities.setter
-    def amenities(self, obj):
-        """ Returns list of Amenity
-        """
-        for xzy in self.amenities:
-            if self.id == amenities.place_id:
-                xyz.append(obj)
-
+        @amenities.setter
+        def amenities(self, obj):
+            """ Returns list of Amenity
+            """
+            for ids in self.amenities:
+                if self.id == self.amenities.place_id:
+                    ids.append(obj)
+            self.amenity_ids = ids
+    
     if getenv("HBNB_FILE_STORAGE") == "db":
         @property
         def reviews(self):

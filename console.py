@@ -45,7 +45,7 @@ class HBNBCommand(cmd.Cmd):
             obj = eval("{}()".format(my_list[0]))
             my_list = my_list[1:]
             for var in my_list:
-                my_param = var.split("=")
+                my_param = var.split("=", 1)
                 try:
                     if '"' in my_param[1]:
                         my_param[1] = my_param[1][1:-1].replace('\\"', '"')

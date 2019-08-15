@@ -52,7 +52,7 @@ class Place(BaseModel, Base):
 
     reviews = relationship('Review',
                            cascade='all, delete',
-                           backref='place')
+                           backref='Place')
 
     if getenv("HBNB_FILE_STORAGE") == "db":
         @property

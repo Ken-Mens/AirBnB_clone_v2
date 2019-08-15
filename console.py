@@ -11,21 +11,27 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 from shlex import split
+
+
 class HBNBCommand(cmd.Cmd):
     """this class is entry point of the command interpreter
     """
     prompt = "(hbnb) "
     all_classes = {"BaseModel", "User", "State", "City",
                    "Amenity", "Place", "Review"}
+
     def emptyline(self):
         """Ignores empty spaces"""
         pass
+
     def do_quit(self, line):
         """Quit command to exit the program"""
         return True
+
     def do_EOF(self, line):
         """Quit command to exit the program at end of file"""
         return True
+
     def do_create(self, line):
         """Creates a new instance of BaseModel, saves it
         Exceptions:
@@ -42,8 +48,8 @@ class HBNBCommand(cmd.Cmd):
                 my_param = var.split("=")
                 try:
                     if '"' in my_param[1]:
-                        my_param[1] = my_param[1][1:-1].replace('\\"','"')
-                        my_param[1] = my_param[1].replace('"','\\"')
+                        my_param[1] = my_param[1][1:-1].replace('\\"', '"')
+                        my_param[1] = my_param[1].replace('"', '\\"')
                         my_param[1] = my_param[1].replace('_', " ")
                         obj.__setattr__(my_param[0], my_param[1])
                     elif '.' in my_param[1]:
@@ -60,6 +66,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
         except NameError:
             print("** class doesn't exist **")
+
     def do_show(self, line):
         """Prints the string representation of an instance
         Exceptions:
@@ -90,6 +97,7 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
         except KeyError:
             print("** no instance found **")
+
     def do_destroy(self, line):
         """Deletes an instance based on the class name and id
         Exceptions:
@@ -121,6 +129,7 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
         except KeyError:
             print("** no instance found **")
+
     def do_all(self, line):
         """Prints all string representation of all instances
         Exceptions:
@@ -144,6 +153,7 @@ class HBNBCommand(cmd.Cmd):
             print(my_list)
         except NameError:
             print("** class doesn't exist **")
+
     def do_update(self, line):
         """Updates an instanceby adding or updating attribute
         Exceptions:
@@ -188,6 +198,7 @@ class HBNBCommand(cmd.Cmd):
             print("** attribute name missing **")
         except ValueError:
             print("** value missing **")
+
     def count(self, line):
         """count the number of instances of a class
         """
@@ -204,6 +215,7 @@ class HBNBCommand(cmd.Cmd):
             print(counter)
         except NameError:
             print("** class doesn't exist **")
+
     def strip_clean(self, args):
         """strips the argument and return a string of command
         Args:
@@ -226,6 +238,7 @@ class HBNBCommand(cmd.Cmd):
         new_str = args[1][args[1].find('(')+1:args[1].find(')')]
         new_list.append(" ".join(new_str.split(", ")))
         return " ".join(i for i in new_list)
+
     def default(self, line):
         """retrieve all instances of a class and
         retrieve the number of instances

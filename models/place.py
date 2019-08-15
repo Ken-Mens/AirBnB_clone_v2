@@ -49,7 +49,7 @@ class Place(BaseModel, Base):
                       nullable=True)
     longitude = Column(Float,
                        nullable=True)
-    if getenv("HBNB_FILE_STORAGE") != "db":
+    if getenv("HBNB_FILE_STORAGE") == "db":
         @property
         def reviews(self):
             """ Return a  list of review instances

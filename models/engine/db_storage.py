@@ -67,12 +67,11 @@ class DBStorage:
     def delete(self, obj=None):
         """ delete from current database
         """
-        obj.delete('fetch')
+        if obj is not None:
+            self.__session.delete(obj)
     def reload(self):
         """ create all tables and create current database
         """
-        #Session = sessionmaker(bind=self.__engine)
-        eng = Base.metadata.create_all(self.__engine) 
-        #Base.metadata.create_all(engine)
-        sesh1 = sessionmaker(bind=eng, expire_on_commit=False)
-        scped = scoped_session(sesh1) 
+        Base.metadata.create_all(self.__engine)
+        sesh1 = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        self.__session = scoped_session(sesh1) 

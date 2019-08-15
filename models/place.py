@@ -3,6 +3,7 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Integer, String, ForeignKey, Float
 from sqlalchemy.orm import relationship
+from os import getenv
 
 
 class Place(BaseModel, Base):
@@ -53,7 +54,7 @@ class Place(BaseModel, Base):
         def reviews(self):
             """ Return a  list of review instances
             """
-            product = models.storage.all(Review)
+            #product = models.storage.all(Review)
             my_list = []
             for ids in self.cities:
                 if ids.state_id == self.id:

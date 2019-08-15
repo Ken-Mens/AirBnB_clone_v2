@@ -49,14 +49,18 @@ class Place(BaseModel, Base):
                       nullable=True)
     longitude = Column(Float,
                        nullable=True)
+
+    reviews = relationship('Review',
+                           cascade='all, delete',
+                           backref='place')
+
     if getenv("HBNB_FILE_STORAGE") == "db":
         @property
         def reviews(self):
             """ Return a  list of review instances
             """
-            #product = models.storage.all(Review)
             my_list = []
-            for ids in self.cities:
-                if ids.state_id == self.id:
+            for ids in self.reviews:
+                if ids.place_id == self.id:
                     my_list.append(ids)
             return my_list

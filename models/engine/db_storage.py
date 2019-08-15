@@ -46,8 +46,8 @@ class DBStorage:
             for table in tables:
                 my_query = sesh.query(table).all()
                 for res in my_query:
-                    my_dict[str(res.__class__.__name__) + "."
-                                                        + str(res.id)] = res
+                    my_dict[(str(res.__class__.__name__) + "." +
+                             str(res.id))] = res
         else:
             my_query = sesh.query(cls.__name__).all()
             print(my_query)

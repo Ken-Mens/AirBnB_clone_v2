@@ -59,10 +59,8 @@ class DBStorage:
     def new(self, obj):
         """ add object to current database
         """
-        self.__session = sessionmaker(bind=self.__engine)
         sesh = self.__session()
         sesh.add(obj)
-        sesh.commit()
 
     def save(self):
         """ commit all changes of current database

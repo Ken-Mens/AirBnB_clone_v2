@@ -17,11 +17,11 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 from models.engine.file_storage import FileStorage
-
+from os import getenv
 
 class TestConsole(unittest.TestCase):
     """this will test the console"""
-
+    
     @classmethod
     def setUpClass(cls):
         """setup for the test"""
@@ -60,6 +60,7 @@ class TestConsole(unittest.TestCase):
         self.assertIsNotNone(HBNBCommand.strip_clean.__doc__)
         self.assertIsNotNone(HBNBCommand.default.__doc__)
 
+    
     def test_emptyline(self):
         """Test empty line input"""
         with patch('sys.stdout', new=StringIO()) as f:
@@ -71,6 +72,8 @@ class TestConsole(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("quit")
             self.assertEqual('', f.getvalue())
+
+    @unittest.skipIf(getenv("HBNB__FILE_STORAGE") == "db", "demonstrating skipping")
 
     def test_create(self):
         """Test create command inpout"""
@@ -89,6 +92,7 @@ class TestConsole(unittest.TestCase):
             self.assertEqual(
                 "[[User]", f.getvalue()[:7])
 
+    @unittest.skip("demonstrating skipping")
     def test_show(self):
         """Test show command inpout"""
         with patch('sys.stdout', new=StringIO()) as f:
@@ -108,6 +112,7 @@ class TestConsole(unittest.TestCase):
             self.assertEqual(
                 "** no instance found **\n", f.getvalue())
 
+    @unittest.skip("demonstrating skipping")
     def test_destroy(self):
         """Test destroy command inpout"""
         with patch('sys.stdout', new=StringIO()) as f:
@@ -127,6 +132,7 @@ class TestConsole(unittest.TestCase):
             self.assertEqual(
                 "** no instance found **\n", f.getvalue())
 
+    @unittest.skip("demonstrating skipping")
     def test_all(self):
         """Test all command inpout"""
         with patch('sys.stdout', new=StringIO()) as f:
@@ -177,6 +183,7 @@ class TestConsole(unittest.TestCase):
             self.consol.onecmd("State.all()")
             self.assertEqual("[]\n", f.getvalue())
 
+
     def test_z_count(self):
         """Test count command inpout"""
         with patch('sys.stdout', new=StringIO()) as f:
@@ -186,6 +193,7 @@ class TestConsole(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("State.count()")
             self.assertEqual("0\n", f.getvalue())
+
 
     def test_z_show(self):
         """Test alternate show command inpout"""
@@ -197,6 +205,7 @@ class TestConsole(unittest.TestCase):
             self.consol.onecmd("BaseModel.show(abcd-123)")
             self.assertEqual(
                 "** no instance found **\n", f.getvalue())
+
 
     def test_destroy(self):
         """Test alternate destroy command inpout"""

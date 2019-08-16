@@ -91,6 +91,7 @@ class TestConsole(unittest.TestCase):
             self.assertEqual(
                 "[[User]", f.getvalue()[:7])
 
+    @unittest.skip("demonstrating skipping")
     def test_show(self):
         """Test show command inpout"""
         with patch('sys.stdout', new=StringIO()) as f:
@@ -110,6 +111,7 @@ class TestConsole(unittest.TestCase):
             self.assertEqual(
                 "** no instance found **\n", f.getvalue())
 
+    @unittest.skip("demonstrating skipping")
     def test_destroy(self):
         """Test destroy command inpout"""
         with patch('sys.stdout', new=StringIO()) as f:
@@ -129,8 +131,6 @@ class TestConsole(unittest.TestCase):
             self.assertEqual(
                 "** no instance found **\n", f.getvalue())
 
-    @unittest.skipIf(getenv("HBNB__TYPE_STORAGE") == "db",
-                     "demonstrating skipping")
     def test_all(self):
         """Test all command inpout"""
         with patch('sys.stdout', new=StringIO()) as f:
@@ -171,8 +171,6 @@ class TestConsole(unittest.TestCase):
             self.assertEqual(
                 "** value missing **\n", f.getvalue())
 
-    @unittest.skipIf(getenv("HBNB__TYPE_STORAGE") == "db",
-                     "demonstrating skipping")
     def test_z_all(self):
         """Test alternate all command inpout"""
         with patch('sys.stdout', new=StringIO()) as f:
@@ -183,8 +181,6 @@ class TestConsole(unittest.TestCase):
             self.consol.onecmd("State.all()")
             self.assertEqual("[]\n", f.getvalue())
 
-    @unittest.skipIf(getenv("HBNB__TYPE_STORAGE") == "db",
-                     "demonstrating skipping")
     def test_z_count(self):
         """Test count command inpout"""
         with patch('sys.stdout', new=StringIO()) as f:
@@ -217,8 +213,6 @@ class TestConsole(unittest.TestCase):
             self.assertEqual(
                 "** no instance found **\n", f.getvalue())
 
-    @unittest.skipIf(getenv("HBNB__TYPE_STORAGE") == "db",
-                     "demonstrating skipping")
     def test_update(self):
         """Test alternate destroy command inpout"""
         with patch('sys.stdout', new=StringIO()) as f:

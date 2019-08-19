@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+"""
+Compress before sending
+"""
 from fabric.api import *
 from datetime import datetime, date
 

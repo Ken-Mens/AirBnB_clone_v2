@@ -1,8 +1,8 @@
 #!/usr/bin/python3
-""" Deploy archive""" 
+""" Deploy archive"""
 import os
 from fabric.api import *
-env.hosts = ['34.73.28.199']
+env.hosts = ['34.73.28.199', '35.229.73.92']
 
 
 def do_deploy(archive_path):
@@ -16,20 +16,19 @@ def do_deploy(archive_path):
         run("mkdir -p /data/web_static/releases/{}".format(filename))
 
         run("tar -xzf /tmp/{} -C /data/web_static/releases/{}"
-        .format(filename, filename))
-       
-        run("rm /tmp/{}".format(filename))
+            .format(filename, filename))
 
+        run("rm /tmp/{}".format(filename))
         run("mv /data/web_static/releases/{}/web_static/*"
-        " /data/web_static/releases/{}"
-        .format(filename, filename))
+            " /data/web_static/releases/{}"
+            .format(filename, filename))
 
         run("rm -rf /data/web_static/releases/{}/web_static"
-        .format(filename))
+            .format(filename))
 
         run("rm -rf /data/web_static/current")
         run("ln -s /data/web_static/releases/{}/ /data/web_static/current"
-        .format(filename))
+            .format(filename))
         return True
     except:
         return False

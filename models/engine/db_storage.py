@@ -39,7 +39,6 @@ class DBStorage:
         """ method that returns everyting based on class name
         """
         my_dict = {}
-        self.__session = sessionmaker(bind=self.__engine)
         sesh = self.__session()
         if cls is None:
             tables = [Amenity, City, Place, State, Review, User]
@@ -49,9 +48,7 @@ class DBStorage:
                     my_dict[(str(res.__class__.__name__) + "." +
                              str(res.id))] = res
         else:
-            my_query = sesh.query(cls.__name__).all()
-            print(my_query)
-            print("else")
+            my_query = sesh.query(eval(cls)).all()
             for res in my_query:
                 my_dict[str(res.__class__.__name__) + "." + str(res.id)] = res
         return my_dict
@@ -80,3 +77,8 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
         self.__session = scoped_session(sessionmaker(bind=self.__engine,
                                                      expire_on_commit=False))
+
+    def close(self):
+        """ closes out private session attribute
+        """
+        self.__session.close()

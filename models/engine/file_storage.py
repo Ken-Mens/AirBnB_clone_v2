@@ -29,7 +29,7 @@ class FileStorage:
             my_dict = {}
             for key, value in self.__objects.items():
                 if key.startswith(cls.__name__):
-                    my_dict[cls.__name__] = value
+                    my_dict[key] = value
             return my_dict
         return self.__objects
 
@@ -64,9 +64,14 @@ class FileStorage:
         """serialize the file path to JSON file path
         """
         try:
-            with open(self.__file_path, 'r', encoding="UTF-8") as f:
-                for key, value in (json.load(f)).items():
+            with open(self.__file_path, 'r', encoding="UTF-8") as ok:
+                for keys, value in (json.load(ok)).items():
                     value = eval(value["__class__"])(**value)
-                    self.__objects[key] = value
+                    self.__objects[keys] = value
         except FileNotFoundError:
             pass
+
+    def close(self):
+        """deserializing JSON file to objects
+        """
+        self.reload()

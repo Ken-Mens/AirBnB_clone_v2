@@ -6,7 +6,7 @@
     <BODY>
       {% if selected == "None" %}
         <H1>Not found!</H1>
-      {% elif selected == "Only" %}
+      {% elif selected == "Just" %}
         <H1>States</H1>
         <UL>
 	  {% for item in states|sort(attribute='name') %}
